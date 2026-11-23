@@ -1,4 +1,6 @@
-# OCE_Experimental_Protocols: experimental implementation of the SBM and Multimeridian MB acquisition protocols
+# OCE_Experimental_Protocols
+
+Experimental implementation of the Multimeridian MB and Synchronized BM-mode (SBM) acquisition protocols for wave-based OCE.
 
 Acquisition and processing code used to implement and validate, on a real OCT system, the wave-based Optical Coherence Elastography (OCE) acquisition protocols developed in the undergraduate thesis of **Estéfano Machado Ferrer** (supervisor: Prof. Fernando Zvietcovich, PhD; Biophotonics and Biomedical Optics Research Group, GIBIO, Pontificia Universidad Católica del Perú):
 
@@ -56,6 +58,34 @@ All paths are relative to the repository root, so nothing has to be edited to ru
 3. **Process real data:** put the `.bin` files in `Data/` (MB) or `SBM_Experiments/Data/` (SBM), with names as in the experiment logs, and run the single-experiment or batch scripts.
 
 Raw data are not included because of their size (hundreds of GB); they are available from the author on reasonable request.
+
+## Representative results
+
+All experiments were run on a tissue-mimicking phantom (reference Rayleigh speed c_R = 10.54 m/s from quasi-static compression) with needle excitation on the Twin OCT.
+
+### Multimeridian MB mode: experimental
+
+| | |
+|---|---|
+| ![MB en-face wavefield](figures/MB_EnFace_Wavefield_8mer_3509Hz.png) | ![MB depth wavefield](figures/MB_Depth_Wavefield_RepMeridian.png) |
+| En-face particle-velocity wavefield (8 meridians, 3509 Hz), without and with the outward directional filter | Depth-resolved wavefield along one meridian, overlaid on the B-mode |
+| ![MB accuracy error](figures/MB_AccuracyError_vs_Meridians.png) | ![MB dispersion](figures/MB_Dispersion.png) |
+| Accuracy error vs. number of meridians for the four estimators (mean ± SD over repetitions) | Phase-speed dispersion over 9 excitation frequencies |
+
+![MB elastograms](figures/MB_Elastograms_vs_Meridians_3509Hz.png)
+
+Phase-speed maps for 4, 8, 16 and 32 meridians (rows) with 1D PG, 1D PG-TV, 2D PG and 2D PG-TV (columns), 3509 Hz, directional filter on.
+
+### SBM: protocol validation and end-to-end test on synthetic data
+
+| | |
+|---|---|
+| ![SBM timeline](SBM_Protocol/Validation/PlotVectors_timeline.png) | ![SBM phase recovery](SBM_Protocol/Validation/SBM_Recovery_Phase.png) |
+| One SBM frame as sent to the hardware: galvo X/Y, B-trigger and excitation, all on the A-line clock | Ideal phase, raw sampled phase, exact acquisition phase from the timeline, and recovered phase after compensation |
+
+![SBM synthetic elastograms](figures/SBM_Synthetic_Elastograms.png)
+
+Full SBM processing chain on synthetic `.bin` files (37 x 21 raster, 57 frames, 3509 Hz, true c = 10.54 m/s): 2D PG and 2D PG-TV, without and with the directional filter.
 
 ## Credits
 
