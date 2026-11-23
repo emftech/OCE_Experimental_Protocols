@@ -36,6 +36,7 @@ OCE_Experimental_Protocols/
 ├── Experiment_Log_06_10_2026.xlsx     MB run list
 ├── Experiment_Log_SBM_19_10_2026.xlsx SBM run list
 ├── Experimental_Setup_Images/
+├── figures/                           representative results (see below)
 ├── Data/, Results/                    MB raw data / outputs (not tracked)
 └── SBM_Experiments/{Data,Sidecars,Results}   SBM raw data, sidecars, outputs (not tracked)
 ```
@@ -61,7 +62,7 @@ Raw data are not included because of their size (hundreds of GB); they are avail
 
 ## Representative results
 
-All experiments were run on a tissue-mimicking phantom (reference Rayleigh speed c_R = 10.54 m/s from quasi-static compression) with needle excitation on the Twin OCT.
+The MB experiments below were run on a tissue-mimicking phantom (reference Rayleigh speed c_R = 10.54 m/s from quasi-static compression) with needle excitation on the Twin OCT.
 
 ### Multimeridian MB mode: experimental
 
