@@ -46,7 +46,7 @@ B.DataDir    = fullfile(B.RootDir, 'Data');
 B.ResultsDir = fullfile(B.RootDir, 'Results');
 B.SummaryDir = fullfile(B.ResultsDir, 'Summary_MMB_07-10-2026');
 B.CodesDir   = fullfile(B.RootDir, 'Codes');
-B.SimCodesDir = fullfile(B.RootDir, '..', 'SBM_Protocol_OCE', 'Codes');   % simulator repo cloned next to this one
+B.SimCodesDir = fullfile(B.RootDir, '..', 'OCE_AcquisitionProtocols_Simulator', 'Codes');   % simulator repo cloned next to this one
 
 % Reference phase speed for the accuracy error (thesis Eq. 28).
 % Primary: Rayleigh speed of the PC phantom from the quasi-static

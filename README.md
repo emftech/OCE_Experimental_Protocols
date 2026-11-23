@@ -2,10 +2,10 @@
 
 Acquisition and processing code used to implement and validate, on a real OCT system, the wave-based Optical Coherence Elastography (OCE) acquisition protocols developed in the undergraduate thesis of **Estéfano Machado Ferrer** (supervisor: Prof. Fernando Zvietcovich, PhD; Biophotonics and Biomedical Optics Research Group, GIBIO, Pontificia Universidad Católica del Perú):
 
-- **Synchronized BM-mode (SBM)**: raster BM scan locked to a harmonic excitation, repeated over frames so that each pixel is sampled in equivalent time; per-pixel acquisition-phase compensation and 2D phase-gradient speed estimation.
+- **Synchronized BM-mode (SBM)**, a novel protocol introduced in the thesis and not yet published in a peer-reviewed journal: raster BM scan locked to a harmonic excitation, repeated over frames so that each pixel is sampled in equivalent time; per-pixel acquisition-phase compensation and 2D phase-gradient speed estimation.
 - **Multimeridian MB mode**: M-B scans along several meridians around the excitation source.
 
-The experiments were run on GIBIO's 1300 nm swept-source **Twin OCT** (200 kHz A-line rate, AlazarTech ATS9360 digitizer, NI-DAQ analog outputs, LabVIEW) on tissue-mimicking phantoms. The simulation framework is in the companion repository **[SBM_Protocol_OCE](https://github.com/emftech/SBM_Protocol_OCE)**, which also has the thesis manuscript.
+The experiments were run on GIBIO's 1300 nm swept-source **Twin OCT** (200 kHz A-line rate, AlazarTech ATS9360 digitizer, NI-DAQ analog outputs, LabVIEW) on tissue-mimicking phantoms. The simulation framework is in the companion repository **[OCE_AcquisitionProtocols_Simulator](https://github.com/emftech/OCE_AcquisitionProtocols_Simulator)**, which also has the thesis manuscript.
 
 ## Repository layout
 
@@ -45,7 +45,7 @@ Detailed documentation: [`SBM_Protocol/README.md`](SBM_Protocol/README.md) and [
 - MATLAB R2026a (developed and tested).
 - Signal Processing, Image Processing, Statistics and Machine Learning, and Curve Fitting toolboxes.
 - For running the acquisition: LabVIEW with the Twin OCT acquisition software (not included; it belongs to GIBIO) and the MATLAB script node.
-- `Check_ExperimentalChain_On_Simulations_MB.m` and the MB batch's comparison with simulations expect the simulator repository cloned **next to** this one (`../SBM_Protocol_OCE`).
+- `Check_ExperimentalChain_On_Simulations_MB.m` and the MB batch's comparison with simulations expect the simulator repository cloned **next to** this one (`../OCE_AcquisitionProtocols_Simulator`).
 
 All paths are relative to the repository root, so nothing has to be edited to run the scripts. The `.m` scripts find the root by themselves. For the live script `Main_Processing_SingleExp_MultimerMB_EMF_Live.mlx`, set MATLAB's current folder to the repository root first.
 

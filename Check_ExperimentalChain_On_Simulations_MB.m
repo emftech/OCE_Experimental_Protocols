@@ -25,7 +25,7 @@
 
 clc; close all;
 Root = fileparts(mfilename('fullpath'));   % repository root
-SimRoot = fullfile(Root, '..', 'SBM_Protocol_OCE', 'Results', 'Experiment_Matched_18x18mm');   % simulator repo cloned next to this one
+SimRoot = fullfile(Root, '..', 'OCE_AcquisitionProtocols_Simulator', 'Results', 'Experiment_Matched_18x18mm');   % simulator repo cloned next to this one
 addpath(genpath(fullfile(Root, 'Codes')));
 set(0, 'DefaultFigureVisible', 'off');
 
