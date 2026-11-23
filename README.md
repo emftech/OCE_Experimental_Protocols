@@ -10,7 +10,7 @@ Acquisition and processing code used to implement and validate, on real swept-so
 The protocols are implemented on two kinds of OCT system:
 
 - **Swept-source OCT:** GIBIO's 1300 nm **Twin OCT** (200 kHz A-line rate, AlazarTech ATS9360 digitizer, NI-DAQ analog outputs, LabVIEW).
-- **Spectral-domain OCT:** the same generator and processing chain, with the camera line trigger as the master clock and an SD-OCT A-line reconstruction (see [Using the code on a spectral-domain OCT](#using-the-code-on-a-spectral-domain-oct)).
+- **Spectral-domain OCT:** a 1310 nm SD-OCT system (50 kHz A-line rate), using the same generator and processing chain, with the camera line trigger as the master clock and an SD-OCT A-line reconstruction (see [Using the code on a spectral-domain OCT](#using-the-code-on-a-spectral-domain-oct)).
 
 The generator and the processing are system-agnostic. Only the raw-spectrum-to-complex-A-line step (`SBM_FrameCplx`), the raw-file header reader and the acquisition-software glue are system-specific; the `SBM_TwinOCT_*` prefix is historical. The simulation framework is in the companion repository **[OCE_AcquisitionProtocols_Simulator](https://github.com/emftech/OCE_AcquisitionProtocols_Simulator)**, which also has the thesis manuscript.
 
