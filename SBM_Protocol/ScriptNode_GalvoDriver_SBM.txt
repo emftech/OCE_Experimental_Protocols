@@ -1,0 +1,14 @@
+% ===== Paste this whole text into the MATLAB script node of =====
+% ===== Waveform SubVIs\Galvo 3D cluster driver_SBM.vi        =====
+% Inputs (already on the node):  horizontalMax horizontalMin verticalMax
+%   verticalMin nAscans nBscans M_repetitions waitTimeAscans Bframesignaldelay
+% Outputs (already on the node): waveform  TotalClusterScans
+% Protocol parameters live in SBM_TwinOCT_Config.m (edit that file, not this node).
+
+addpath('C:\GIBIO\SS-OCT-1300nm-TwinOCT-Labview\SBM_Protocol');   % <-- EDIT to the lab PC path
+sidecarDir = 'C:\GIBIO\SBM_Sidecars';                               % <-- EDIT (folder for .mat sidecars)
+
+[waveform, TotalClusterScans] = SBM_TwinOCT_LabVIEWNode( ...
+    horizontalMin, horizontalMax, verticalMin, verticalMax, ...
+    M_repetitions, nAscans, nBscans, waitTimeAscans, Bframesignaldelay, ...
+    sidecarDir);

@@ -1,0 +1,16 @@
+# Data and outputs (large; kept locally)
+Data/*
+SBM_Experiments/Data/*
+SBM_Experiments/Sidecars/*
+Results/*
+SBM_Experiments/Results/*
+!**/README.md
+*.bin
+*.mat
+*.mp4
+*.avi
+# MATLAB
+*.asv
+*.mex*
+# OS
+.DS_Store
