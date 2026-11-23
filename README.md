@@ -47,7 +47,7 @@ Detailed documentation: [`SBM_Protocol/README.md`](SBM_Protocol/README.md) and [
 - For running the acquisition: LabVIEW with the Twin OCT acquisition software (not included; it belongs to GIBIO) and the MATLAB script node.
 - `Check_ExperimentalChain_On_Simulations_MB.m` and the MB batch's comparison with simulations expect the simulator repository cloned **next to** this one (`../SBM_Protocol_OCE`).
 
-All paths are relative to the repository root, so nothing has to be edited to run the scripts.
+All paths are relative to the repository root, so nothing has to be edited to run the scripts. The `.m` scripts find the root by themselves. For the live script `Main_Processing_SingleExp_MultimerMB_EMF_Live.mlx`, set MATLAB's current folder to the repository root first.
 
 ## Quick start
 
