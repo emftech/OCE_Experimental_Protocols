@@ -42,11 +42,12 @@ OCE_Experimental_Protocols/
 ├── Experiment_Log_SBM_19_10_2026.xlsx SBM run list
 ├── Experimental_Setup_Images/
 ├── figures/                           representative results (see below)
+├── docs/SBM_Protocol_Reference.md     SBM rules, inputs/outputs, feasible settings, tests, lessons learned
 ├── Data/, Results/                    MB raw data / outputs (not tracked)
 └── SBM_Experiments/{Data,Sidecars,Results}   SBM raw data, sidecars, outputs (not tracked)
 ```
 
-Detailed documentation: [`SBM_Protocol/README.md`](SBM_Protocol/README.md) and [`Codes_SBM_Processing/README.md`](Codes_SBM_Processing/README.md).
+Detailed documentation: [`docs/SBM_Protocol_Reference.md`](docs/SBM_Protocol_Reference.md) (protocol rules, inputs, outputs, tests, lessons learned), [`SBM_Protocol/README.md`](SBM_Protocol/README.md) (with the Twin OCT step-by-step guide) and [`Codes_SBM_Processing/README.md`](Codes_SBM_Processing/README.md).
 
 ## Requirements
 

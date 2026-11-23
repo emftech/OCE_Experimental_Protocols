@@ -1,17 +1,18 @@
 # SBM protocol for the Twin OCT
 
-This folder holds the tools for running the Synchronized BM-mode (SBM) protocol (E. Machado's thesis, Ch. 5) on the Twin OCT. Processing of the acquisitions lives in [`../Codes_SBM_Processing`](../Codes_SBM_Processing). The step-by-step guides mentioned below are kept in the author's lab notes and are not part of this repository.
+This folder holds the tools for running the Synchronized BM-mode (SBM) protocol (E. Machado's thesis, Ch. 5) on the Twin OCT. Processing of the acquisitions lives in [`../Codes_SBM_Processing`](../Codes_SBM_Processing).
 
-**Step-by-step guides (Obsidian vault, `Research-GIBIO/LabVIEW/`):**
-- **Variant A, external generator (current):** `SBM External Generator Implementation - Step by Step (22-11-2026).md`
-- **Variant B, NI DAQ sine:** `Variant_B_DAQ_Sine/SBM_AsyncOCE_DAQ_Excitation_Steps.md` (Spanish) and the 24-10 preparation notes
-- **Background and history:** `SBM Protocol Implementation - Twin OCT.md` and `LabView Implementation of SBM Protocol with External Signal Generator Excitation.md`
+**Guides:**
+- **Variant A, external generator (current):** [`docs/TwinOCT_ExternalGenerator_StepByStep_22-11-2026.md`](docs/TwinOCT_ExternalGenerator_StepByStep_22-11-2026.md)
+- **Variant B, NI DAQ sine:** [`Variant_B_DAQ_Sine/SBM_AsyncOCE_DAQ_Excitation_Steps.md`](Variant_B_DAQ_Sine/SBM_AsyncOCE_DAQ_Excitation_Steps.md) (Spanish)
+- **Protocol rules, inputs, outputs, tests and lessons learned:** [`../docs/SBM_Protocol_Reference.md`](../docs/SBM_Protocol_Reference.md)
 
 ## Folder layout (22-11-2026)
 
 ```
 SBM_Protocol/
 ├── README.md
+├── docs/                          ← step-by-step guide for the Twin OCT (Variant A)
 ├── SBM_TwinOCT_Config.m           ← ALL protocol parameters + the VARIANT switch (edit this)
 ├── SBM_TwinOCT_Waveform.m         ← builds the AO waveform and the timeline (Info)
 ├── SBM_TwinOCT_LabVIEWNode.m      ← called by the LabVIEW script node; saves the sidecar
