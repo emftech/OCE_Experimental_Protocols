@@ -1,13 +1,18 @@
 # OCE_Experimental_Protocols
 
-Experimental implementation of the Multimeridian MB and Synchronized BM-mode (SBM) acquisition protocols for wave-based OCE.
+Experimental implementation of the Multimeridian MB and Synchronized BM-mode (SBM) acquisition protocols for wave-based OCE, on both **swept-source (SS-OCT)** and **spectral-domain (SD-OCT)** systems.
 
-Acquisition and processing code used to implement and validate, on a real OCT system, the wave-based Optical Coherence Elastography (OCE) acquisition protocols developed in the undergraduate thesis of **Estéfano Machado Ferrer** (supervisor: Prof. Fernando Zvietcovich, PhD; Biophotonics and Biomedical Optics Research Group, GIBIO, Pontificia Universidad Católica del Perú):
+Acquisition and processing code used to implement and validate, on real swept-source and spectral-domain OCT systems, the wave-based Optical Coherence Elastography (OCE) acquisition protocols developed in the undergraduate thesis of **Estéfano Machado Ferrer** (supervisor: Prof. Fernando Zvietcovich, PhD; Biophotonics and Biomedical Optics Research Group, GIBIO, Pontificia Universidad Católica del Perú):
 
 - **Synchronized BM-mode (SBM)**, a novel protocol introduced in the thesis and not yet published in a peer-reviewed journal: raster BM scan locked to a harmonic excitation, repeated over frames so that each pixel is sampled in equivalent time; per-pixel acquisition-phase compensation and 2D phase-gradient speed estimation.
 - **Multimeridian MB mode**: M-B scans along several meridians around the excitation source.
 
-The experiments were run on GIBIO's 1300 nm swept-source **Twin OCT** (200 kHz A-line rate, AlazarTech ATS9360 digitizer, NI-DAQ analog outputs, LabVIEW) on tissue-mimicking phantoms. The simulation framework is in the companion repository **[OCE_AcquisitionProtocols_Simulator](https://github.com/emftech/OCE_AcquisitionProtocols_Simulator)**, which also has the thesis manuscript.
+The protocols are implemented on two kinds of OCT system:
+
+- **Swept-source OCT:** GIBIO's 1300 nm **Twin OCT** (200 kHz A-line rate, AlazarTech ATS9360 digitizer, NI-DAQ analog outputs, LabVIEW).
+- **Spectral-domain OCT:** the same generator and processing chain, with the camera line trigger as the master clock and an SD-OCT A-line reconstruction (see [Using the code on a spectral-domain OCT](#using-the-code-on-a-spectral-domain-oct)).
+
+The generator and the processing are system-agnostic. Only the raw-spectrum-to-complex-A-line step (`SBM_FrameCplx`), the raw-file header reader and the acquisition-software glue are system-specific; the `SBM_TwinOCT_*` prefix is historical. The simulation framework is in the companion repository **[OCE_AcquisitionProtocols_Simulator](https://github.com/emftech/OCE_AcquisitionProtocols_Simulator)**, which also has the thesis manuscript.
 
 ## Repository layout
 
@@ -47,7 +52,7 @@ Detailed documentation: [`SBM_Protocol/README.md`](SBM_Protocol/README.md) and [
 
 - MATLAB R2026a (developed and tested).
 - Signal Processing, Image Processing, Statistics and Machine Learning, and Curve Fitting toolboxes.
-- For running the acquisition: LabVIEW with the Twin OCT acquisition software (not included; it belongs to GIBIO) and the MATLAB script node.
+- For running the acquisition: the OCT system's acquisition software (not included). On the swept-source Twin OCT this is LabVIEW with the GIBIO acquisition VIs and the MATLAB script node.
 - `Check_ExperimentalChain_On_Simulations_MB.m` and the MB batch's comparison with simulations expect the simulator repository cloned **next to** this one (`../OCE_AcquisitionProtocols_Simulator`).
 
 All paths are relative to the repository root, so nothing has to be edited to run the scripts. The `.m` scripts find the root by themselves. For the live script `Main_Processing_SingleExp_MultimerMB_EMF_Live.mlx`, set MATLAB's current folder to the repository root first.
@@ -60,9 +65,25 @@ All paths are relative to the repository root, so nothing has to be edited to ru
 
 Raw data are not included because of their size (hundreds of GB); they are available from the author on reasonable request.
 
+## Using the code on a spectral-domain OCT
+
+What changes between the swept-source Twin OCT and an SD-OCT system (everything not listed is unchanged):
+
+| Item | Twin OCT (swept source) | SD-OCT: what to do |
+|---|---|---|
+| **Master clock** | laser sweep trigger 200 kHz → DAQ AO sample clock and digitizer | **Camera line trigger.** Either the DAQ generates the line trigger and the camera runs in external line-trigger mode, or the camera's line-out drives the DAQ AO sample clock. Galvos, B-trigger, excitation and camera lines must share **one** clock, and P must be an integer at that rate. |
+| **Record per trigger** | ATS9360 in AUX trigger-enable mode: R lines per B-trigger edge | Frame grabber / camera **frame trigger** with a frame of R lines started by the B-trigger. Alternative: acquire continuously, count lines, and cut the R·C lines of each frame at `Info.TrigIdx`. Either way the processing needs `[nS × R·C × N_F]` in acquisition order. |
+| **Galvo lag** | `TrigDelay` = 30 A-lines | Measure on the new system with a **null run** (`SBM_TwinOCT_NullCheck`): it reports the serpentine shift and the delay to set. Scale it with the line rate. |
+| **Sampling instant** | A-line ≈ instant | Each line integrates over the **exposure** `t_exp`. That is a constant offset (global phase, harmless) plus an amplitude loss `sinc(f_exc·t_exp)`. Keep `t_exp ≪ T_exc`. Fast galvo motion during exposure blurs the speckle, so check that the beam moves less than about a spot size per line. |
+| **Complex A-line** | k-clocked sweep → Hann + FFT (`SBM_FrameCplx`) | **Replace `SBM_FrameCplx`** with the SD-OCT reconstruction: background removal, λ→k resampling, dispersion compensation, FFT. It must return complex depth profiles `[nZ × R·C]` for one frame. **Everything after it is unchanged.** |
+| **Raw file / header** | LabVIEW `.bin` (text header + uint16) | Either write the same header (key list in `SBM_ReadBinHeader.m`) or adapt `SBM_ReadBinHeader` / the `memmapfile` call in section 2 of the single-experiment script. |
+| **Excitation** | DAQ sine on ao3 (`"sine"`), or Rigol 1-cycle burst re-triggered every P lines | Same options. The DAQ sine has P steps per period (fine when P ≳ 10). A generator must be **re-triggered every P lines** from the line clock (a counter dividing the line trigger by P). Never free-run it. |
+| **AO channel count** | LabVIEW had to use the **4-channel** AO task; with 3 channels the excitation row was silently dropped | Check on a scope that the excitation channel really outputs during the scan. |
+| **Phase sign / velocity** | `λ0 = 1.3 µm`, `n = 1.39` (`Cfg.OCT.*` in the script) | Set the centre wavelength and refractive index of the new system. |
+
 ## Representative results
 
-The MB experiments below were run on a tissue-mimicking phantom (reference Rayleigh speed c_R = 10.54 m/s from quasi-static compression) with needle excitation on the Twin OCT.
+The MB experiments below were run on a tissue-mimicking phantom (reference Rayleigh speed c_R = 10.54 m/s from quasi-static compression) with needle excitation on the swept-source Twin OCT.
 
 ### Multimeridian MB mode: experimental
 
